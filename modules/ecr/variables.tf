@@ -1,3 +1,8 @@
+variable "region" {
+  description = "AWS region to create resources in"
+  type        = string
+  default     = "us-east-1"
+}
 variable "image_name" {
   description = "Name of Docker image"
   type        = string
