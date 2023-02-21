@@ -1,7 +1,7 @@
 locals {
   container_definitions = format("[%s]", join(",", [
     for definition in var.container_definitions :
-    templatefile("${path.module}/templates/container_definition.tpl", {
+    templatefile("${path.module}/templates/container_defination.json", {
       container_name = definition.name,
       image          = definition.image,
       cpu            = definition.cpu,

@@ -27,16 +27,19 @@ variable "target_group_arn" {
 }
 
 variable "container_definitions" {
-  type = list(object({
-    name           = string
-    image          = string
-    cpu            = number
-    memory         = number
-    environment    = map(string)
-    secrets        = map(string)
-    container_port = number
-  }))
-  description = "List of container definition assigned to ecs task"
+  default = [
+    {
+      name   = "keycloak-container"
+      image  = "keylock-image:latest"
+      cpu    = 256
+      memory = 512
+      environment = {
+        FOO = "bar"
+      }
+      secrets        = {}
+      container_port = 8080
+    }
+  ]
 }
 
 variable "vpc_id" {
