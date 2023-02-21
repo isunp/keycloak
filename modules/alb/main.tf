@@ -3,7 +3,7 @@ resource "aws_lb" "alb" {
   internal           = false
   load_balancer_type = "application"
   subnets            = var.subnet_ids
-  security_groups    = var.security_groups
+  security_groups    = [aws_security_group.alb.id]
   tags               = var.tags
 }
 
@@ -13,7 +13,17 @@ resource "aws_lb_target_group" "target_group" {
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
   target_type = "ip"
-  tags        = var.tags
+  health_check {
+    path                = "/auth"
+    port                = 8080
+    protocol            = "HTTP"
+    healthy_threshold   = 2
+    unhealthy_threshold = 3
+    interval            = 100
+    matcher             = "200-499"
+    timeout             = 30
+  }
+  tags = var.tags
 }
 
 resource "aws_security_group" "alb" {
@@ -47,19 +57,19 @@ resource "aws_lb_listener" "http" {
   protocol          = "HTTP"
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.keycloak.arn
+    target_group_arn = aws_lb_target_group.target_group.arn
   }
 }
 
-resource "aws_lb_listener" "https" {
-  load_balancer_arn = aws_lb.alb.arn
-  port              = 443
-  protocol          = "HTTPS"
-  certificate_arn   = var.certificate_arn
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.keycloak.arn
-  }
-}
+# resource "aws_lb_listener" "https" {
+#   load_balancer_arn = aws_lb.alb.arn
+#   port              = 443
+#   protocol          = "HTTPS"
+#   certificate_arn   = var.certificate_arn
+#   default_action {
+#     type             = "forward"
+#     target_group_arn = aws_lb_target_group.keycloak.arn
+#   }
+# }
 
 

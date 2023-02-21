@@ -2,13 +2,6 @@ variable "db_name" {
   type = string
 }
 
-variable "db_username" {
-  type = string
-}
-
-variable "db_password" {
-  type = string
-}
 
 variable "db_instance_class" {
   type = string
@@ -28,6 +21,9 @@ variable "db_allocated_storage" {
 variable "db_subnet_group_name" {
   type = string
 }
+variable "db_subnet_ids" {
+  type = list(string)
+}
 
 variable "db_parameter_group_name" {
   type = string
@@ -42,9 +38,26 @@ variable "db_backup_retention_period" {
 }
 
 variable "db_port" {
-  type = number
+  type    = number
+  default = 5432
 }
 
-variable "db_security_groups" {
-  type = list(string)
+
+variable "vpc_id" {
+  type        = string
+  description = "VPC ID for postgress to launch on"
+}
+variable "db_tags" {
+  type        = map(string)
+  description = "Tags"
+}
+
+variable "cidr_blocks_to_allow_access_to_db" {
+  type        = list(string)
+  description = "List of CIDR Ranage to allow traffic to DataBase"
+
+}
+variable "db_secret_name" {
+  description = "AWS Secret manager ARN to retrive DB username and password"
+  type        = string
 }

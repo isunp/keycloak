@@ -9,3 +9,8 @@ variable "db_username" {
 variable "db_password" {
   description = "password for the Postgres database"
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "Tags"
+}

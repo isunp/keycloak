@@ -6,9 +6,6 @@ variable "subnet_ids" {
   type = list(string)
 }
 
-variable "security_groups" {
-  type = list(string)
-}
 
 variable "target_group_name" {
   type = string
@@ -25,22 +22,11 @@ variable "vpc_id" {
 variable "listener_port" {
   type = number
 }
-variable "certificate_arn" {
-  type = string
-}
-
-
-
-
-
-
-
-
 
 variable "tags" {
   type = map(string)
   default = {
-    Environment = "prod"
+    Environment = "dev"
   }
 }
 

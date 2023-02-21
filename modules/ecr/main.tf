@@ -12,10 +12,9 @@ resource "aws_ecr_lifecycle_policy" "repo-policy" {
   "rules": [
     {
       "rulePriority": 1,
-      "description": "Keep image deployed with tag '${var.tags}''",
+      "description": "Keep image deployed with tags",
       "selection": {
-        "tagStatus": "tagged",
-        "tagPrefixList": ["${var.tags}"],
+        "tagStatus": "untagged",
         "countType": "imageCountMoreThan",
         "countNumber": 1
       },
@@ -38,5 +37,4 @@ resource "aws_ecr_lifecycle_policy" "repo-policy" {
   ]
 }
 EOF
-
 }
